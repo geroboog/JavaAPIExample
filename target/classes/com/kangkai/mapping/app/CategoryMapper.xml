@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.CategoryMapper">
+	
+	<select id="selectCategory" parameterType="map"
+		resultType="com.kangkai.pojo.Category">
+		<![CDATA[
+			select * from t_category where isDelete=0 limit ${begin},${pageSize}
+		]]>
+	</select>
+	
+</mapper>

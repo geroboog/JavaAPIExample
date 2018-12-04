@@ -1,0 +1,11 @@
+[INFO] [2016-12-05 15:18:02][com.cloopen.rest.sdk.CCPRestSDK]Mon Dec 05 15:18:02 CST 2016 sendTemplateSMS url = https://sandboxapp.cloopen.com:8883/2013-12-26/Accounts/aaf98f895427cf500154364deae114f0/SMS/TemplateSMS?sig=0858EA1A9BB714BA087B153FC09D019D
+[INFO] [2016-12-05 15:18:02][com.cloopen.rest.sdk.CCPRestSDK]Mon Dec 05 15:18:02 CST 2016 sendTemplateSMS Request body =  <?xml version='1.0' encoding='utf-8'?><TemplateSMS><appId>aaf98f895427cf5001543654ea4b1504</appId><to>15622378147</to><templateId>120866</templateId><datas><data>123456</data></datas></TemplateSMS>
+[INFO] [2016-12-05 15:18:02][com.cloopen.rest.sdk.CCPRestSDK]Mon Dec 05 15:18:02 CST 2016 sendTemplateSMS response body = <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Response>
+    <statusCode>000000</statusCode>
+    <TemplateSMS>
+        <smsMessageSid>83ba1898c2fa463788b88894f03d2656</smsMessageSid>
+        <dateCreated>20161205151803</dateCreated>
+    </TemplateSMS>
+</Response>
+

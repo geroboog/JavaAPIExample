@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.RedPacketMapper">
+	
+	<select id="selectByProductOrderId" parameterType="map" resultType="com.kangkai.pojo.RedPacket">
+			select * from t_red_packet where productOrderId=#{productOrderId} 
+	</select>
+	
+	
+	<insert id="insertRedPacket" parameterType="com.kangkai.pojo.RedPacket" useGeneratedKeys="true" keyProperty="redPacketId" >
+			insert into t_red_packet (maxNum,money,productOrderId,userId) values (#{maxNum},#{money},#{productOrderId},#{userId}) 
+	</insert>
+	
+		<select id="selectById" parameterType="int" resultType="com.kangkai.pojo.RedPacket">
+			select * from t_red_packet where redPacketId=#{redPacketId} 
+	</select>
+	
+</mapper>

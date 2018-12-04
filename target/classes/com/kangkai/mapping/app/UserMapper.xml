@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.UserMapper">
+
+	<insert id="insert" parameterType="com.kangkai.pojo.User"
+		useGeneratedKeys="true" keyProperty="userId">
+		<![CDATA[
+			INSERT INTO `t_user`(`username`,`phone`,`password`,`userIcon`,`nickname`)
+		VALUES(#{username},#{phone},#{password},#{userIcon},#{nickname});
+
+		]]>
+	</insert>
+
+	<select id="selectById" parameterType="int"
+		resultType="com.kangkai.pojo.User">
+		<![CDATA[
+			select * from t_user where userId=#{userId}
+		]]>
+	</select>
+	
+	<select id="selectByPhone" parameterType="String"
+		resultType="com.kangkai.pojo.User">
+		<![CDATA[
+			select * from t_user where  username=#{phone}
+		]]>
+	</select>
+	
+	<select id="count" resultType="int">
+		<![CDATA[
+			select count(*) from t_user
+		]]>
+	</select>
+	
+	<update id="updateUserInfo" parameterType="com.kangkai.pojo.User">
+			UPDATE `t_user`
+			SET
+			`userId` = #{userId}
+			<if test="userIcon!=null">
+			,`userIcon` = #{userIcon}
+			</if>
+			<if test="nickname!=null">
+			,`nickname` = #{nickname}
+			</if>
+			WHERE `userId` = #{userId};
+	</update>
+	
+	<update id="updatePassword" parameterType="com.kangkai.pojo.User">
+		<![CDATA[
+			UPDATE `youhuo`.`t_user`
+			SET
+			`password` = #{password}
+			WHERE `userId` = #{userId};
+		]]>
+	</update>
+	
+	<select id="selectByUsernames" parameterType="String" resultType="com.kangkai.vo.UserSimpleVO">
+		<![CDATA[
+			select userId,username,userIcon,nickName from t_user where username in (${value})
+		]]>
+	</select>
+	
+	<select id="selectByCompanyId" parameterType="int" resultType="com.kangkai.pojo.User">
+		<![CDATA[
+			select * from t_user where companyId=#{companyId}
+		]]>
+	</select>
+	<update id="updateMoney" parameterType="com.kangkai.pojo.User">
+		<![CDATA[
+			UPDATE `t_user`SET `balance` = `balance`+#{balance} WHERE `userId` = #{userId};
+		]]>
+	</update>
+	
+	<select id="selectByQQUserId" parameterType="String"
+		resultType="com.kangkai.pojo.User">
+		<![CDATA[
+			select * from t_user where QQuserId=#{value}
+		]]>
+	</select>
+	<select id="selectByWXUserId" parameterType="String"
+		resultType="com.kangkai.pojo.User">
+		<![CDATA[
+			select * from t_user where WXuserId=#{value}
+		]]>
+	</select>
+
+</mapper>

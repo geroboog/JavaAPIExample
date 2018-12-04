@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.ProductInfoMapper">
+
+	<select id="selectProductInfo" parameterType="int"
+		resultType="com.kangkai.pojo.ProductInfo">
+		
+		select * from t_product_Info where productId=#{productId};
+		
+	</select>
+	
+	<update id="updateEvaluation" parameterType="int" >
+
+			update  t_product_info set evaluationNum=evaluationNum+1, evaluation=(select sum(evaluation) from t_product_comment where productId=#{productId})/(select count(*) from t_product_comment where productId=#{productId}) where productId=#{productId}
+	
+	</update>
+</mapper>

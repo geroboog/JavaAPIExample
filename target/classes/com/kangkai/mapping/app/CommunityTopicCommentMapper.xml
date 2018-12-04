@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.CommunityTopicCommentMapper">
+	
+	<select id="selectCommunityTopicCommentList" parameterType="map"
+		resultType="com.kangkai.vo.UserCommunityTopicCommentVO">
+		
+			select tctc.*,tu.nickname,tu.userIcon from (
+			select * from t_community_topic_comment tctc 
+			where  tctc.isDelete=0 
+			<if test="communityTopicId!= null">
+			 and tctc.communityTopicId=#{communityTopicId}  
+			</if>
+			
+			order by tctc.createTime desc
+			
+			limit ${begin},${pageSize}
+			) tctc left join t_user tu on tctc.userId=tu.userId
+			
+	</select>
+		<insert id="insertCommunityTopicComment" parameterType="com.kangkai.pojo.CommunityTopicComment" useGeneratedKeys="true" keyProperty="communityTopicCommentId" >
+		
+			INSERT INTO `kangkai`.`t_community_topic_comment`(
+			`communityTopicId`,
+			`userId`,
+			`content`
+			)
+			VALUES
+			(
+			#{communityTopicId},
+			#{userId},
+			#{content}
+			)
+
+			
+	</insert>
+</mapper>

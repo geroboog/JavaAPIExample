@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.CouponMapper">
+
+	<select id="selectCouponByLimitMoneyAndUserId" parameterType="map"
+		resultType="com.kangkai.pojo.Coupon">
+		<![CDATA[
+			select * from t_coupon where userId=#{userId} and #{limitMoney} >= limitMoney and To_days(expiryDate)>To_days(now()) and type=#{type} and  isUse=0
+		]]>
+	</select>
+	
+	<select id="selectById" parameterType="map"
+		resultType="com.kangkai.pojo.Coupon">
+		<![CDATA[
+			select * from t_coupon where couponId=#{couponId}
+		]]>
+	</select>
+	
+	<update id="updateIsUseById" parameterType="map">
+		<![CDATA[
+			update t_coupon set `isUse`= ${isUse} where couponId=#{couponId}
+		]]>
+	</update>
+	
+	<insert id="insertCoupon" parameterType="com.kangkai.pojo.Coupon" useGeneratedKeys="true" keyProperty="couponId" >
+			insert into t_coupon (couponName,expiryDate,limitMoney,type,userId,worth) values (#{couponName},#{expiryDate},#{limitMoney},#{type},#{userId},#{worth}) 
+	</insert>
+	
+	
+	<select id="countUserUsefulCoupon" parameterType="Integer"
+		resultType="Integer">
+		
+			select count(1) from t_coupon where userId=#{value} and To_days(expiryDate)>To_days(now()) and  isUse=0
+		
+	</select>
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.StoreMapper">
+
+	<insert id="insertStore" parameterType="com.kangkai.pojo.Store"
+		useGeneratedKeys="true" keyProperty="storeId">
+			
+		INSERT INTO `kangkai`.`t_store`(`userId`,`shopId`,`shopName`,`shopAddress`
+		<if test="phone!=null">,`phone`</if>
+		<if test="remark">,`remark`</if>
+		<if test="storeTime">,`storeTime`</if>)
+		VALUES(#{userId},#{shopId},#{shopName},#{shopAddress}
+		<if test="phone!=null">,#{phone}</if>
+		<if test="remark">,#{remark}</if>
+		<if test="storeTime">,#{storeTime}</if>
+		);
+		
+
+	</insert>
+</mapper>

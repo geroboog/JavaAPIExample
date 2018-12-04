@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.CommunityTopicMapper">
+	
+	<select id="selectCommunityTopicVOList" parameterType="map"
+		resultType="com.kangkai.vo.CommunityTopicVO" >
+		select tct.*,tu.nickname,tu.userIcon,tc.communityTitle from 
+		(select * from t_community_topic tct where isDelete=0
+			<if test="communityId!= null">
+			 and tct.communityId=#{communityId}  
+			</if>
+			<if test="userId!= null">
+			 and tct.userId=#{userId}  
+			</if>
+			<if test="productId!= null">
+			 and tct.productId=#{productId}  
+			</if>
+			<if test="productOrderId!= null">
+			 and tct.productOrderId=#{productOrderId}  
+			</if>
+			order by tct.createTime desc
+			limit ${begin},${pageSize}
+			) as tct
+			left join t_user tu on tu.userId=tct.userId
+			left join t_community tc on tct.communityId=tc.communityId
+			
+	</select>
+	<select id="countCommunityTopicList" parameterType="map"
+		resultType="Integer">
+		select count(*) from t_community_topic tct where tct.isDelete=0 
+			<if test="communityId!= null">
+			 and tct.communityId=#{communityId}  
+			</if>
+			<if test="userId!= null">
+			 and tct.userId=#{userId}  
+			</if>
+			<if test="productId!= null">
+			 and tct.productId=#{productId}  
+			</if>
+			<if test="productOrderId!= null">
+			 and tct.productOrderId=#{productOrderId}  
+			</if>
+	</select>
+	
+	<insert id="insertCommunityTopic" parameterType="com.kangkai.pojo.CommunityTopic" useGeneratedKeys="true" keyProperty="communityTopicId" >
+		
+			INSERT INTO `kangkai`.`t_community_topic`(
+			`title`,
+			`communityId`,
+			`userId`,
+			`productTitle`,
+			`productShowImg`
+			<if test="content!= null and content!=''">
+			,`content`
+			</if>
+			<if test="productId!= null">
+			,`productId`
+			</if>
+			<if test="productOrderId!= null">
+			,`productOrderId`
+			</if>
+			)
+			VALUES
+			(
+			#{title},
+			#{communityId},
+			#{userId},
+			#{productTitle},
+			#{productShowImg}
+			<if test="content!= null and content!=''">
+			,#{content}
+			</if>
+			<if test="productId!= null">
+			,#{productId}
+			</if>
+			<if test="productOrderId!= null">
+			,#{productOrderId}
+			</if>
+			)
+
+			
+	</insert>
+	
+	<select id="selectCommunityTopicVO" parameterType="map"
+		resultType="com.kangkai.vo.CommunityTopicDetailVO">
+		select tct.*,tu.nickname,tu.userIcon,tc.communityTitle from 
+		(select * from t_community_topic tct where isDelete=0
+			<if test="communityTopicId!= null">
+			 and tct.communityTopicId = #{communityTopicId}  
+			</if>
+			<if test="userId!= null">
+			 and tct.userId=#{userId}  
+			</if>
+			<if test="productId!= null">
+			 and tct.productId=#{productId}  
+			</if>
+			<if test="productOrderId!= null">
+			 and tct.productOrderId=#{productOrderId}  
+			</if>
+			order by tct.createTime desc
+			) as tct
+			left join t_user tu on tu.userId=tct.userId
+			left join t_community tc on tct.communityId=tc.communityId
+			
+	</select>
+	
+	<select id="selectCommunityFollowTopicVOList" parameterType="map"
+		resultType="com.kangkai.vo.CommunityTopicVO" >
+		select tct.*,tu.nickname,tu.userIcon,tc.communityTitle from 
+		(select * from t_community_follow tcf  where tcf.isDelete=0
+			
+			<if test="userId!= null">
+			 and tcf.userId=#{userId}  
+			</if>
+		
+			order by tcf.createTime desc
+			limit ${begin},${pageSize}
+			) as tcf
+			left join t_community_topic tct on tcf.communityId=tct.communityId
+			left join t_user tu on tu.userId=tct.userId
+			left join t_community tc on tct.communityId=tc.communityId
+			
+	</select>
+	
+</mapper>

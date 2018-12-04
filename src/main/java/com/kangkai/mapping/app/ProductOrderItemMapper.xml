@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.ProductOrderItemMapper">
+
+	<select id="selectProductOrderItemList" parameterType="map" resultType="com.kangkai.vo.UserProductOrderItemVO">
+		<![CDATA[
+			select * from `t_product_order_item` where productOrderId=#{productOrderId} ;
+		]]>
+	</select>
+	
+	<insert id="insertOrderItem" parameterType="com.kangkai.pojo.ProductOrderItem" useGeneratedKeys="true" keyProperty="productOrderItemId">
+	
+	INSERT INTO `t_product_order_item`(`productId`,`attrs`,`count`,`productOrderId`,`productTitle`,`productPrice`,`productShowImg`,`customAttrs`,`type`)
+	VALUES(#{productId},#{attrs},#{count},#{productOrderId},#{productTitle},#{productPrice},#{productShowImg},#{customAttrs},#{type});
+	
+	</insert>
+	
+	<update id="updateIsStore" parameterType="map" >
+
+			update `t_product_order_item` set `isStore`=#{isStore} where 1=1 <if test="productOrderId!=null"> and productOrderId=#{productOrderId} </if> <if test="productOrderItemId!=null"> and productOrderItemId=#{productOrderItemId} </if>
+
+	</update>
+	
+	<select id="selectById" parameterType="int" resultType="com.kangkai.pojo.ProductOrderItem">
+	
+			select * from `t_product_order_item` where productOrderItemId=#{productOrderItemId} ;
+		
+	</select>
+	
+	<select id="selectProductOrderItemListNo" parameterType="map" resultType="com.kangkai.pojo.ProductOrderItem">
+			select * from `t_product_order_item` where productOrderId=#{productOrderId} ;
+	</select>
+	
+</mapper>

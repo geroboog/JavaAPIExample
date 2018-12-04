@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.ProductCommentMapper">
+
+	
+	<insert id="insertComment" parameterType="com.kangkai.pojo.ProductComment">
+		
+	INSERT INTO`t_product_comment`(`productId`,`userId`,`content`,`evaluation`,`productOrderId`)
+VALUES
+(#{productId},#{userId},#{content},#{evaluation},#{productOrderId});
+
+	</insert>
+	
+	<select id="selectProductCommentList" parameterType="map"
+		resultType="com.kangkai.vo.UserCommentVO">
+		
+			select pc.*,u.nickname,u.usericon from t_product_comment pc left join t_user u on pc.userId=u.userId where productId=#{productId} 
+		
+	</select>
+	
+</mapper>

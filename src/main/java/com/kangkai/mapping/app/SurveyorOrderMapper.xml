@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.SurveyorOrderMapper">
+
+	<select id="selectById" parameterType="int"
+		resultType="com.kangkai.pojo.SurveyorOrder">
+		
+		select * from t_surveyor_order where surveyorOrderId=#{surveyorOrderId};
+		
+	</select>
+	
+	<select id="selectLastSurveyorOrder" parameterType="map"
+		resultType="com.kangkai.pojo.SurveyorOrder">
+		
+		select * from t_surveyor_order where isDelete=0 order by createTime desc limit 1;
+		
+	</select>
+	
+	<select id="selectSurveyorOrderByUserId" parameterType="map"
+		resultType="com.kangkai.vo.UserSurveyorOrderVO">
+		
+		select so.*,s.userIcon as surveyorUserIcon,s.nickname as surveyorNickname,si.serveNum as surveyorServeNum,si.evaluationNum as surveyorEvaluationNum 
+		from t_surveyor_order so 
+		left join t_surveyor s on so.surveyorId=s.surveyorId 
+		left join t_surveyor_info si on so.surveyorId=si.surveyorId
+		 where so.userId=#{userId} and so.isDelete=0
+		<if test=" state!=null ">
+			and so.state=#{state}
+		</if> 
+		order by so.createTime desc limit #{begin},#{pageSize} ;
+		
+	</select>
+	
+	<insert id="insertSurveyorOrder"  parameterType="com.kangkai.pojo.SurveyorOrder">
+		
+	INSERT INTO `t_surveyor_order`(`userId`,`surveyorOrderNum`,`recipient`,
+	`toProvince`,`toCity`,`toDistrict`,`phone`,`address`,`bookTime`)
+	VALUES
+	(#{userId}, #{surveyorOrderNum},#{recipient},#{toProvince},#{toCity},#{toDistrict},#{phone},#{address},
+	#{bookTime});
+
+	</insert>
+	
+	<select id="selectSurveyorOrderBySurveyorId" parameterType="map"
+		resultType="com.kangkai.vo.UserSurveyorOrderVO">
+		
+		select * from t_surveyor_order where surveyorId=#{surveyorId} and isDelete=0
+		<if test=" state!=null ">
+			and state=#{state}
+		</if> 
+	    order by createTime desc limit #{begin},#{pageSize} ;
+		
+	</select>
+	
+	<update id="updateSurveyorOrderState" parameterType="com.kangkai.pojo.SurveyorOrder" >
+
+			update `t_surveyor_order` set `state`=#{state} where surveyorOrderId=#{surveyorOrderId}
+
+	</update>
+	
+</mapper>

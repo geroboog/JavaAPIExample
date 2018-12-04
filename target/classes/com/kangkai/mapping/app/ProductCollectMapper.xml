@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.ProductCollectMapper">
+
+	<select id="getProductCollect" parameterType="map" resultType="com.kangkai.pojo.ProductCollect">
+		
+		select * from `t_product_collect` where productId=#{productId} and userId=#{userId} 
+		
+	</select>
+	
+	<select id="selectProductCollectList" parameterType="map" resultType="com.kangkai.vo.UserProductVO">
+		
+		select tp.* from `t_product_collect` tpc left join t_product tp on tpc.productId=tp.productId  where userId=#{userId} and tp.isDelete=0 limit #{begin},#{pageSize}
+		
+	</select>
+	
+	<update id="updateProductCollect" parameterType="com.kangkai.pojo.ProductCollect">
+		
+		update `t_product_collect` set isDelete=#{isDelete} where productCollectId=#{productCollectId}
+		
+	</update>
+	
+	<insert id="insertProductCollect" parameterType="com.kangkai.pojo.ProductCollect">
+		
+		insert into `t_product_collect` (`productId`,`userId`) values (#{productId},#{userId})
+		
+	</insert>
+	
+	<select id="countProductCollectNum" parameterType="int" resultType="Integer">
+		
+		select count(*) from `t_product_collect`  where productCollectId=#{productCollectId} 
+		
+	</select>
+</mapper>

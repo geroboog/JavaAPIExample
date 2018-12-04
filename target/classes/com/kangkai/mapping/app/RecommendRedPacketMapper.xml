@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.RecommendRedPacketMapper">
+	
+	<select id="selectByPhoneAndRedPacketId" parameterType="map" resultType="com.kangkai.pojo.RecommendRedPacket">
+			select * from t_recommend_red_packet where phone=#{phone}  and redPacketId=#{redPacketId}
+	</select>
+	
+	<insert id="insertRecommendRedPacket" parameterType="com.kangkai.pojo.RecommendRedPacket" useGeneratedKeys="true" keyProperty="recommendRedPacketId" >
+			insert into t_recommend_red_packet (redPacketId,phone,money) values (#{redPacketId},#{phone},#{money}) 
+	</insert>
+	
+</mapper>

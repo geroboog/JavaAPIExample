@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.UserInfoMapper">
+
+	<insert id="insert" parameterType="com.kangkai.pojo.UserInfo">
+		<![CDATA[
+			INSERT INTO `t_user_info`(`userId`)
+		VALUES(#{userId});
+		]]>
+	</insert>
+
+	<select id="getUserInfo" parameterType="Integer" resultType="com.kangkai.pojo.UserInfo">
+		<![CDATA[
+			select * from `t_user_info` where userId=#{value} limit 1;
+		]]>
+	</select>
+	
+	<update id="updateUserInfo" parameterType="com.kangkai.pojo.UserInfo">
+		update `t_user_info` set `userId`=#{userId}
+		<if test="shareRecommendCode!=null">
+		,`shareRecommendCode`=#{shareRecommendCode}
+		</if>
+		where `userId`=#{userId}
+	</update>
+	
+		<select id="getUserInfoVO" parameterType="Integer" resultType="com.kangkai.vo.UserInfoVO">
+		<![CDATA[
+			select tui.*,tu.userIcon,tu.nickname from `t_user` tu left join `t_user_info` tui on tu.userId=tui.userId where tu.userId=#{value} limit 1;
+		]]>
+	</select>
+</mapper>

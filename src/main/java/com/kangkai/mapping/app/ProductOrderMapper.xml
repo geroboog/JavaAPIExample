@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.ProductOrderMapper">
+
+	<select id="selectById" parameterType="int"
+		resultType="com.kangkai.pojo.ProductOrder">
+		
+		select * from t_product_order where productOrderId=#{productOrderId};
+		
+	</select>
+	
+	<select id="selectProductOrderList" parameterType="map"
+		resultType="com.kangkai.vo.UserProductOrderVO">
+		
+		select * from t_product_order where  userId=#{userId} and isDelete=0
+		<if test="state!=null">
+		and state=#{state}
+		</if> 
+		order by createTime desc
+		limit #{begin},#{pageSize}
+		
+	</select>
+	
+	<select id="selectProductOrderDetailById" parameterType="int"
+		resultType="com.kangkai.vo.UserProductOrderDetailVO">
+		
+		select * from t_product_order where productOrderId=#{productOrderId};
+		
+	</select>
+	
+	<select id="selectProductOrderProductList" parameterType="map"
+		resultType="com.kangkai.vo.UserProductOrderProductVO">
+		
+		select tpo.*,tpoi.* from (select * from t_product_order where  userId=#{userId}
+		<if test="state!=null">
+		and state=#{state}
+		</if> 
+		order by createTime desc
+		limit #{begin},#{pageSize}
+		) tpo left join t_product_order_item tpoi on tpoi.productOrderId=tpo.productOrderId
+		order by tpo.createTime 
+	</select>
+	
+	<select id="selectLastProductOrderByUserId" parameterType="Integer"
+		resultType="com.kangkai.pojo.ProductOrder">
+			select * from t_product_order o where userId=#{userId} and isDelete=0 order by createTime desc limit 1
+	</select>
+	
+	<insert id="insertProductOrder" parameterType="com.kangkai.pojo.ProductOrder"
+		useGeneratedKeys="true" keyProperty="productOrderId">
+			INSERT INTO `t_product_order`(`state`,`recipient`,`toProvince`,`toCity`,`toDistrict`,`phone`,`address`,`userId`,
+			`postcode`,`totalPrice`,`finalPrice`
+		<if test="makerId!=null">
+		,`makerId`
+		</if> 
+		<if test="couponId!=null">
+		,`couponId`
+		</if> 
+		<if test="invitedCode!=null">
+		,`invitedCode`
+		</if> 
+		<if test="remark!=null">
+		,`remark`
+		</if> 
+		,`productOrderNum`,`freight`)
+		VALUES(#{state},#{recipient},#{toProvince},#{toCity},#{toDistrict},#{phone},#{address},
+		#{userId},#{postcode},#{totalPrice},#{finalPrice}
+		<if test="makerId!=null">
+		,#{makerId}
+		</if> 
+		<if test="couponId!=null">
+		,#{couponId}
+		</if> 
+		<if test="invitedCode!=null">
+		,#{invitedCode}
+		</if> 
+		<if test="remark!=null">
+		,#{remark}
+		</if> 
+		,#{productOrderNum},#{freight});
+	</insert>
+	
+	<select id="selectProductOrderDetailByProductOrderNum" parameterType="map"
+		resultType="com.kangkai.pojo.ProductOrder">
+		
+		select * from t_product_order where  productOrderNum=#{productOrderNum} 
+		
+	</select>
+	
+	<update id="updateProductOrderState" parameterType="com.kangkai.pojo.ProductOrder" >
+
+			update `t_product_order` set `state`=#{state} where productOrderId=#{productOrderId}
+
+	</update>
+	
+	<select id="selectClothesByUserIdAndSeason" parameterType="map"
+		resultType="com.kangkai.vo.UserClothesVO">
+		
+		select tpoi.* from ( select tpoi.* from t_product_order tpo left join t_product_order_item tpoi on tpo.productOrderId=tpoi.productOrderId where tpo.userId=#{userId} and isDelete=0 limit #{begin},#{pageSize} ) tpoi left join t_product tp on tpoi.productId=tp.productId 
+		<if test="season !=null">
+		where tp.season=#{season}
+		</if>
+	
+	</select>
+	
+	<update id="updateProductOrderIsComment" parameterType="Map" >
+	
+			update `t_product_order` set `isComment`=${isComment},`state`=${state} where productOrderId=${productOrderId}
+			
+	</update>
+	
+	<update id="updateApplyAfterSales" parameterType="Map" >
+	
+			update `t_product_order` set `isApplyAfterSales`=${isApplyAfterSales} where productOrderId=${productOrderId}
+			
+	</update>
+	
+	<update id="updateIsStore" parameterType="com.kangkai.pojo.ProductOrder" >
+	
+			update `t_product_order` set `isStore`=${isStore} where productOrderId=${productOrderId}
+			
+	</update>
+</mapper>

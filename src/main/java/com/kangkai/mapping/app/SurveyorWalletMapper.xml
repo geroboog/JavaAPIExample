@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.SurveyorWalletMapper">
+
+	<insert id="insert" parameterType="com.kangkai.pojo.SurveyorWallet">
+		<![CDATA[
+			INSERT INTO `t_surveyor_wallet`(`surveyorId`)
+		VALUES(#{surveyorId});
+		]]>
+	</insert>
+
+	<select id="getSurveyorWallet" parameterType="Integer" resultType="com.kangkai.vo.SurveyorWalletVO">
+		
+			select * from `t_surveyor_wallet` where surveyorId=#{value} limit 1;
+		
+	</select>
+	
+	<select id="getSurveyorWalletNor" parameterType="Integer" resultType="com.kangkai.pojo.SurveyorWallet">
+		
+			select * from `t_surveyor_wallet` where surveyorId=#{value} limit 1;
+		
+	</select>
+	
+	
+</mapper>

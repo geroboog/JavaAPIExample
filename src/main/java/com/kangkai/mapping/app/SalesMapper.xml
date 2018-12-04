@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.SalesMapper">
+	
+	<select id="selectById" parameterType="int" resultType="com.kangkai.pojo.Sales">
+			
+			select * from t_sales where isDelete=0 and isDisplay =0 and salesId=#{salesId}
+	</select>
+	<select id="selectSalesList" parameterType="map" resultType="com.kangkai.pojo.Sales">
+			
+			select * from t_sales where isDelete=0 and isDisplay =0 order by sort limit ${begin},${pageSize}
+	</select>
+	
+	<select id="selectSalesProductList" parameterType="map"
+		resultType="com.kangkai.pojo.Product">
+		<![CDATA[
+			select p.* from t_sales_product sp left join t_product p on sp.productId=p.productId
+			where sp.salesId=#{salesId} limit #{begin},#{pageSize}
+		]]>
+	</select>
+	
+</mapper>

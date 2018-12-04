@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.UserWalletMapper">
+
+	<insert id="insert" parameterType="com.kangkai.pojo.UserWallet">
+		<![CDATA[
+			INSERT INTO `t_user_wallet`(`userId`)
+		VALUES(#{userId});
+		]]>
+	</insert>
+
+	<select id="getUserWallet" parameterType="Integer" resultType="com.kangkai.vo.UserWalletVO">
+		
+			select * from `t_user_wallet` where userId=#{value} limit 1;
+		
+	</select>
+	
+	<select id="getUserWalletNor" parameterType="Integer" resultType="com.kangkai.pojo.UserWallet">
+		
+			select * from `t_user_wallet` where userId=#{value} limit 1;
+		
+	</select>
+	
+	<update id="updateUserWalletMoney" parameterType="com.kangkai.pojo.UserWallet">
+		
+			update `t_user_wallet` set 
+			<if test="withDrawBalance!=null">
+			`withDrawBalance`=`WithDrawBalance`+#{WithDrawBalance},
+			`withDrawVersion`=`withDrawVersion`+1
+			</if>
+			<if test="balance!=null">
+			`balance`=`balance`+#{balance},
+			`version`=`version`+1
+			</if>
+			where `userWalletId`=#{userWalletId}
+			<if test="withDrawBalance!=null">
+			and `withDrawVersion`=#{withDrawVersion}
+			</if>
+			<if test="balance!=null">
+			and `balance`=#{balance}
+			</if>
+		
+	</update>
+</mapper>

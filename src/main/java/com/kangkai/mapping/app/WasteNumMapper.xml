@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.WasteNumMapper">
+
+	<select id="selectByWasteNum" parameterType="String"
+		resultType="com.kangkai.pojo.WasteNum">
+		
+		select * from t_WasteNum where wasteNum=#{value};
+		
+	</select>
+	
+	
+	<insert id="insertWasteNum" parameterType="com.kangkai.pojo.WasteNum"
+		useGeneratedKeys="true" keyProperty="wasteNumId">
+		INSERT INTO `t_wastenum`(`wasteNum`
+		<if test="productOrderNum!=null">
+		,`productOrderNum`
+		</if>
+		<if test="surveyorOrderNum!=null">
+		,`surveyorOrderNum`
+		</if>
+		,`userId`)
+		VALUES(#{wasteNum}
+		<if test="productOrderNum!=null">
+		,#{productOrderNum}
+		</if>
+		<if test="surveyorOrderNum!=null">
+		,#{surveyorOrderNum}
+		</if>,#{userId})
+
+	</insert>
+	
+
+	
+	
+	
+</mapper>

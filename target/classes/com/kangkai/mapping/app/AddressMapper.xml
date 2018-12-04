@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.AddressMapper">
+
+	
+
+	<select id="selectById" parameterType="int"
+		resultType="com.kangkai.pojo.Address">
+		<![CDATA[
+			select * from t_address where addressId=#{addressId}
+		]]>
+	</select>
+	
+	<select id="selectAddressListWithPageByUserId" parameterType="int"
+		resultType="com.kangkai.pojo.Address">
+		<![CDATA[
+			select * from t_address where userId=#{userId} and isDelete=0  order by createTime desc limit #{begin},#{pageSize}
+		]]>
+	</select>
+	
+	<insert id="insertAddress" parameterType="com.kangkai.pojo.Address" useGeneratedKeys="true" keyProperty="addressId">
+		<![CDATA[
+		INSERT INTO `t_address`(`userId`,`name`,`phone`,`province`,`city`,`district`,`detailAddr`,`createTime`)VALUES
+		(#{userId},#{name},#{phone},#{province},#{city},#{district},#{detailAddr},now());
+		]]>
+	</insert>
+	
+	<update id="initDefaultAddress" parameterType="int">
+		<![CDATA[
+			update `t_address` set isDefault=0 where userId=#{userId}
+				]]>
+	</update>
+	
+		<update id="updateDefaultAddress" parameterType="int">
+		<![CDATA[
+			update `t_address` set isDefault=1 where addressId=#{addressId}
+				]]>
+	</update>
+	
+	<update id="deleteAddress" parameterType="int">
+		<![CDATA[
+			update `t_address` set isDelete=1 where addressId=#{addressId}
+				]]>
+	</update>
+	
+	
+	<update id="updateAddress" parameterType="com.kangkai.pojo.Address" >
+		<![CDATA[
+		update `t_address` set `name`=#{name},`phone`=#{phone},`province`=#{province},`city`=#{city},`district`=#{district},`detailAddr`=#{detailAddr} where addressId=#{addressId};
+		]]>
+	</update>
+	
+	<select id="selectUserDefaultAddress" parameterType="int" resultType="com.kangkai.vo.AddressVO">
+		<![CDATA[
+			select * from t_address where userId=#{userId} and isDelete=0 and isDefault=1 
+		]]>
+	</select>
+
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.SurveyorOrderMessageMapper">
+
+	<select id="selectSurveyorOrderMessage" parameterType="map"
+		resultType="com.kangkai.vo.UserSurveyorOrderMessageVO">
+		
+		select * from t_surveyor_order_message  where userId=#{userId};
+		
+	</select>
+	
+	<insert id="insertSurveyorOrderMessage" parameterType="map">
+		
+		insert into t_surveyor_order_message (`userId`,`state`) values(#{userId},0),(#{userId},1),(#{userId},2),(#{userId},3);
+		
+	</insert>
+	
+	<update id="updateSurveyorOrderMessage" parameterType="map">
+		
+		update t_surveyor_order_message 
+		set `num`=
+		<if test="type==0">
+		0
+		</if>
+		<if test="type==1">
+		`num`+1
+		</if>
+		where userId=#{userId} and state=#{state}
+		
+	</update>
+	
+	<select id="selectSurveyorOrderMessageOne" parameterType="map"
+		resultType="com.kangkai.vo.UserSurveyorOrderMessageVO">
+		
+		select * from t_surveyor_order_message  where userId=#{userId} and state=#{state};
+		
+	</select>
+	
+</mapper>

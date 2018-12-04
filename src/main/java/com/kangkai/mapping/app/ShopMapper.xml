@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.ShopMapper">
+
+	<select id="selectById" parameterType="int"
+		resultType="com.kangkai.pojo.Shop">
+		
+		select * from t_shop where shopId=#{shopId};
+		
+	</select>
+	
+	
+	<select id="selectByMap" parameterType="map"
+		resultType="com.kangkai.pojo.Shop">
+		<![CDATA[
+			select * from t_shop order by createTime desc limit #{begin},#{pageSize}
+		]]>
+	</select>
+</mapper>

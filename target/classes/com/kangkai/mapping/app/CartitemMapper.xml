@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.CartitemMapper">
+
+	
+	<select id="selectUserCartitemList" parameterType="map"
+		resultType="com.kangkai.vo.UserCartitemVO" >
+		
+			select tp.*,tpc.* from (select * from t_cartitem where userId=#{userId}  order by createTime desc limit ${begin},${pageSize} ) tpc 
+			left join t_product tp on tpc.productId=tp.productId
+			
+	</select>
+	
+	<select id="getCartitemProduct" parameterType="com.kangkai.pojo.Cartitem"
+		resultType="com.kangkai.pojo.Cartitem">
+		<![CDATA[
+		select * from `t_cartitem` where userId=#{userId} and productId=#{productId} and attrs=#{attrs}
+		]]>
+	</select>
+	
+	<insert id="addCartitemProduct" parameterType="com.kangkai.pojo.Cartitem"  >
+		<![CDATA[
+		insert INTO `t_cartitem` (`productId`,`attrs`,`count`,`createTime`,`userId`)values(#{productId},#{attrs},#{count},now(),#{userId})
+		]]>
+	</insert>
+	
+	<update id="updateCartitemProduct" parameterType="com.kangkai.pojo.Cartitem"  >
+		<![CDATA[
+		update `t_cartitem` set `count`=#{count} where cartitemId=#{cartitemId}
+		]]>
+	</update>
+	
+	<delete id="deleteCartitemProduct" parameterType="Integer"  >
+		<![CDATA[
+		delete from `t_cartitem` where cartitemId=#{cartitemId}
+		]]>
+	</delete>
+	
+</mapper>

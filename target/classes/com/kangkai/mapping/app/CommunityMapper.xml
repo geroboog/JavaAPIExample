@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.app.CommunityMapper">
+	
+	<select id="selectCommunityList" parameterType="map"
+		resultType="com.kangkai.pojo.Community">
+		
+			select * from t_community where isDisplay=0 and isDelete=0 
+			<if test="isHot!= null">
+			 and isHot=#{isHot}  
+			</if>
+			limit ${begin},${pageSize}
+			
+	</select>
+	
+	<select id="selectUserFollowCommunityList" parameterType="map"
+		resultType="com.kangkai.pojo.Community">
+			select tc.* from (select communityId from t_community_follow where userId=#{userId} and isDelete=0 limit ${begin},${pageSize}) tcf
+			left join  t_community  tc on tcf.communityId=tc.communityId where tc.isDisplay=0 and tc.isDelete=0 
+			
+	</select>
+	
+	<select id="selectById" parameterType="map"
+		resultType="com.kangkai.vo.UserCommunityVO">
+		
+			select *,(select count(1) from t_community_follow where communityId=#{communityId}) as userFollowNum 
+			<if test="userId!=null">,(select count(1) from t_community_follow where userId=#{userId} and communityId=#{communityId} and isDelete=0 ) as isFollow</if> 
+			from t_community where communityId=#{communityId}
+			
+	</select>
+	
+
+	
+</mapper>

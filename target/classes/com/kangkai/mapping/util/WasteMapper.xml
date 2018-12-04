@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kangkai.mapper.util.WasteMapper">
+
+	
+	<insert id="insertProductWaste" parameterType="com.kangkai.pojo.Waste"
+		useGeneratedKeys="true" keyProperty="wasteId">
+		<![CDATA[
+		INSERT INTO `t_waste`(`describe`,`money`,`type`,`payWay`,`userId`,`wasteNum`)VALUES(#{describe},#{money},#{type},#{payWay},#{userId},#{wasteNum});
+		]]>
+	</insert>
+	
+	<select id="selectWasteList" parameterType="map" resultType="com.kangkai.vo.UserWasteVO">  
+    	 
+    	 select * from t_waste where userId=#{userId} and isDelete=0 <if test="wasteTime!=null"> to_days(#{wasteTime})>to_days(createTime) and to_days(createTime) > (to_days(#{wasteTime})-30) </if> order by createTime desc limit #{begin},#{pageSize}
+    	 
+    </select>
+		
+</mapper>
